@@ -1,17 +1,26 @@
-include 'win64ax.inc'
+format PE console
 
-.code
+entry Start
 
-  start:
+include 'win32a.inc'
 
-        invoke MessageBox, HWND_DESKTOP, "Do you know how to write this program?", invoke GetCommandLine, MB_YESNO
+section '.data' data readable writable
 
-        .if eax = IDYES
-                invoke MessageBox, HWND_DESKTOP, "You're cool!", "Great!", MB_OK
-        .else
-                invoke MessageBox, HWND_DESKTOP, "You have to practice assembler more!", "Pity!", MB_OK
-        .endif
+        helloStr db 'Hello, world!', 0
+        NULL = 0
 
-        invoke  ExitProcess,0
+section '.code' code readable executable
 
-.end start
+        Start:
+                push helloStr
+                call [printf]
+                call [getch]
+
+                push NULL
+                call [ExitProcess]
+
+section '.idata' import data readable
+
+        library kernel, 'kernel32.dll', msvcrt, 'msvcrt.dll'
+        import kernel, ExitProcess, 'ExitProcess'
+        import msvcrt, printf, 'printf', getch, '_getch'
