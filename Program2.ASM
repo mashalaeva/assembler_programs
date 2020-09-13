@@ -4,7 +4,8 @@ include 'include/win32ax.inc'
 
 main:
 
-invoke MessageBox,NULL,'Hello, World!','Message box',MB_OK
-invoke ExitProcess,0
+invoke MessageBox, NULL, 'Hello, World!', 'Message box', MB_OK
+
+invoke ExitProcess, 0
 
 .end main
